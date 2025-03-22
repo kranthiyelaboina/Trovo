@@ -230,7 +230,7 @@ const redemptionOptions: RedemptionOption[] = [
     minPoints: 1000,
     category: "Shopping",
     icon: "/assets/icons/flipkart.svg",
-    tag: null
+    tag: undefined
   },
   {
     id: "sw1",
@@ -253,7 +253,7 @@ const redemptionOptions: RedemptionOption[] = [
     minPoints: 2000,
     category: "Lifestyle",
     icon: "/assets/icons/zomato.svg",
-    tag: null
+    tag: undefined
   },
   {
     id: "mk1",
@@ -263,7 +263,7 @@ const redemptionOptions: RedemptionOption[] = [
     minPoints: 3000,
     category: "Travel",
     icon: "/assets/icons/makemytrip.svg",
-    tag: null
+    tag: undefined
   },
   {
     id: "tc1",
@@ -273,7 +273,7 @@ const redemptionOptions: RedemptionOption[] = [
     minPoints: 1200,
     category: "Shopping",
     icon: "/assets/icons/tatacliq.svg",
-    tag: null
+    tag: undefined
   },
   {
     id: "ub1",
@@ -283,7 +283,7 @@ const redemptionOptions: RedemptionOption[] = [
     minPoints: 1000,
     category: "Travel",
     icon: "/assets/icons/uber.svg",
-    tag: null
+    tag: undefined
   },
   {
     id: "pm1",
@@ -293,7 +293,7 @@ const redemptionOptions: RedemptionOption[] = [
     minPoints: 500,
     category: "Payments",
     icon: "/assets/icons/phonepe.svg",
-    tag: null
+    tag: undefined
   },
   {
     id: "pp1",
@@ -303,7 +303,7 @@ const redemptionOptions: RedemptionOption[] = [
     minPoints: 500,
     category: "Payments",
     icon: "/assets/icons/paytm.svg",
-    tag: null
+    tag: undefined
   }
 ];
 
