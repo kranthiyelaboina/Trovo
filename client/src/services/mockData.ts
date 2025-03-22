@@ -187,7 +187,7 @@ const redemptionOptions: RedemptionOption[] = [
     minPoints: 500,
     category: "Shopping",
     icon: "/assets/icons/google-play.svg",
-    tag: null
+    tag: undefined
   },
   {
     id: "fp1",
@@ -197,7 +197,7 @@ const redemptionOptions: RedemptionOption[] = [
     minPoints: 1000,
     category: "Lifestyle",
     icon: "/assets/icons/fuel.svg",
-    tag: null
+    tag: undefined
   },
   {
     id: "nf1",
@@ -207,7 +207,7 @@ const redemptionOptions: RedemptionOption[] = [
     minPoints: 1500,
     category: "Entertainment",
     icon: "/assets/icons/netflix.svg",
-    tag: null
+    tag: undefined
   },
   {
     id: "ch1",
