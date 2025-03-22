@@ -244,16 +244,28 @@ export default function AuthPage() {
       </div>
       
       {/* Hero section */}
-      <div className="flex-1 bg-gradient-to-br from-primary/90 to-primary p-6 flex flex-col justify-center text-white">
-        <div className="max-w-lg mx-auto">
-          <h1 className="text-4xl font-bold mb-4">Maximize Your Credit Card Rewards</h1>
+      <div className="flex-1 bg-gradient-to-br from-primary/90 to-primary p-6 flex flex-col justify-center text-white relative overflow-hidden">
+        {/* Animated background elements */}
+        <div className="absolute top-20 -right-20 w-64 h-64 bg-white/5 rounded-full blur-xl"></div>
+        <div className="absolute bottom-20 -left-20 w-80 h-80 bg-white/5 rounded-full blur-xl"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-white/5 rounded-full blur-xl"></div>
+        
+        <div className="max-w-lg mx-auto relative z-10">
+          <div className="inline-block bg-white/10 px-3 py-1 rounded-full text-sm font-medium mb-4 animate-pulse">
+            🎉 Exclusive Replit Hackathon Offer
+          </div>
+          
+          <h1 className="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-100">
+            Maximize Your Credit Card Rewards
+          </h1>
+          
           <p className="text-white/90 text-lg mb-8">
             Track, manage, and redeem your credit card points all in one place. Never miss out on rewards again.
           </p>
           
-          <div className="space-y-4">
-            <div className="flex items-start">
-              <div className="bg-white/10 p-3 rounded-lg mr-4">
+          <div className="space-y-5">
+            <div className="flex items-start transform transition-all duration-300 hover:translate-x-2">
+              <div className="bg-white/10 p-3 rounded-lg mr-4 shadow-lg">
                 <CreditCard className="h-6 w-6" />
               </div>
               <div>
@@ -262,8 +274,8 @@ export default function AuthPage() {
               </div>
             </div>
             
-            <div className="flex items-start">
-              <div className="bg-white/10 p-3 rounded-lg mr-4">
+            <div className="flex items-start transform transition-all duration-300 hover:translate-x-2">
+              <div className="bg-white/10 p-3 rounded-lg mr-4 shadow-lg">
                 <Gift className="h-6 w-6" />
               </div>
               <div>
@@ -272,8 +284,8 @@ export default function AuthPage() {
               </div>
             </div>
             
-            <div className="flex items-start">
-              <div className="bg-white/10 p-3 rounded-lg mr-4">
+            <div className="flex items-start transform transition-all duration-300 hover:translate-x-2">
+              <div className="bg-white/10 p-3 rounded-lg mr-4 shadow-lg">
                 <Wallet className="h-6 w-6" />
               </div>
               <div>
@@ -283,14 +295,22 @@ export default function AuthPage() {
             </div>
           </div>
           
-          <div className="mt-10">
+          <div className="mt-10 flex space-x-4">
             <Button
               variant="outline"
-              className="border-white text-white hover:bg-white hover:text-primary"
+              className="border-white text-black bg-white hover:bg-primary/10 hover:text-white hover:border-primary shadow-lg transform transition-transform duration-200 hover:scale-105"
               onClick={() => setActiveTab("register")}
             >
               Get Started Today
               <ChevronRight className="ml-2 h-4 w-4" />
+            </Button>
+            
+            <Button
+              variant="ghost"
+              className="border border-white/30 text-white hover:bg-white/20 hover:text-white"
+              onClick={() => setActiveTab("login")}
+            >
+              Login to Account
             </Button>
           </div>
         </div>

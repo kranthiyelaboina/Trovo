@@ -149,7 +149,7 @@ export default function ProfilePage() {
   
   // Calculate account stats
   const totalCards = cards?.length || 0;
-  const totalPoints = cards?.reduce((sum, card) => sum + card.points, 0) || 0;
+  const totalPoints = (cards && cards.length > 0) ? cards.reduce((sum, card) => sum + card.points, 0) : 0;
   const memberSince = user ? new Date(user.id > 1 ? "2023-01-01" : "2023-07-01").toLocaleDateString() : "";
   
   return (

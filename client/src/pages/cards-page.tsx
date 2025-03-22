@@ -80,7 +80,7 @@ export default function CardsPage() {
                   <p className="text-2xl font-bold mt-1">
                     {isLoading ? (
                       <Loader2 className="h-6 w-6 animate-spin text-primary" />
-                    ) : cards?.reduce((total, card) => total + card.points, 0).toLocaleString() || 0}
+                    ) : ((cards && cards.length > 0) ? cards.reduce((total, card) => total + card.points, 0).toLocaleString() : "0")}
                   </p>
                 </div>
                 <div className="bg-neutral-50 p-4 rounded-lg">

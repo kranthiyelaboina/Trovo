@@ -70,7 +70,7 @@ export default function RedemptionPage() {
   };
   
   const getTotalPoints = () => {
-    return cards?.reduce((total, card) => total + card.points, 0) || 0;
+    return (cards && cards.length > 0) ? cards.reduce((total, card) => total + card.points, 0) : 0;
   };
   
   return (
