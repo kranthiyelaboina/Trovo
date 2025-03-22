@@ -85,11 +85,15 @@ export default function TransactionsPage() {
   };
   
   const getTotalPointsEarned = () => {
-    return filteredTransactions?.reduce((total, transaction) => total + transaction.pointsEarned, 0) || 0;
+    return (filteredTransactions && filteredTransactions.length > 0) 
+      ? filteredTransactions.reduce((total, transaction) => total + transaction.pointsEarned, 0) 
+      : 0;
   };
   
   const getTotalSpent = () => {
-    return filteredTransactions?.reduce((total, transaction) => total + transaction.amount, 0) || 0;
+    return (filteredTransactions && filteredTransactions.length > 0) 
+      ? filteredTransactions.reduce((total, transaction) => total + transaction.amount, 0) 
+      : 0;
   };
   
   const clearFilters = () => {

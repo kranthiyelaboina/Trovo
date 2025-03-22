@@ -22,9 +22,10 @@ export default function RedemptionRecommendations({ isLoading = false }: Redempt
   });
 
   // Get the card with the most points for default redemption
-  const defaultCard = cards?.reduce((prev, current) => 
-    (prev?.points > current.points) ? prev : current
-  );
+  const defaultCard = cards && cards.length > 0 
+    ? cards.reduce((prev, current) => 
+        (prev?.points > current.points) ? prev : current, cards[0])
+    : undefined;
 
   // Get redemption options
   const redemptionOptions = getRedemptionOptions();
