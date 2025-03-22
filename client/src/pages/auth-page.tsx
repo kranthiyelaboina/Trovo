@@ -251,8 +251,8 @@ export default function AuthPage() {
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-white/5 rounded-full blur-xl"></div>
         
         <div className="max-w-lg mx-auto relative z-10">
-          <div className="inline-block bg-white/10 px-3 py-1 rounded-full text-sm font-medium mb-4 animate-pulse">
-            🎉 Exclusive Replit Hackathon Offer
+          <div className="inline-block bg-white/10 px-3 py-1 rounded-full text-sm font-medium mb-4">
+            ✨ Premium Features Available
           </div>
           
           <h1 className="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-100">

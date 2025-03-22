@@ -30,6 +30,8 @@ export default function RedemptionModal({ card, open, onClose, preselectedOption
   const [selectedOption, setSelectedOption] = useState<RedemptionOption | null>(null);
   const [pointsToRedeem, setPointsToRedeem] = useState<number>(0);
   const [redeemAll, setRedeemAll] = useState(false);
+  const [showSuccessScreen, setShowSuccessScreen] = useState(false);
+  const [transactionId, setTransactionId] = useState("");
   
   const bank = getBankById(card.bankId);
   const options = getRedemptionOptions();
@@ -151,7 +153,16 @@ export default function RedemptionModal({ card, open, onClose, preselectedOption
       return;
     }
     
-    redeemMutation.mutate();
+    // For demo purposes, show success screen instead of actual API call
+    // Generate a mock transaction ID
+    const mockTransactionId = Math.random().toString(36).substring(2, 15).toUpperCase();
+    setTransactionId(mockTransactionId);
+    setShowSuccessScreen(true);
+    
+    // Update the card points in the background
+    setTimeout(() => {
+      redeemMutation.mutate();
+    }, 1000);
   };
   
   const calculateValue = () => {
@@ -161,132 +172,183 @@ export default function RedemptionModal({ card, open, onClose, preselectedOption
   
   return (
     <Dialog open={open} onOpenChange={(newOpen) => !newOpen && onClose()}>
-      <DialogContent className="sm:max-w-[600px]">
+      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Redeem Points</DialogTitle>
+          <DialogTitle>{showSuccessScreen ? "Redemption Successful" : "Redeem Points"}</DialogTitle>
         </DialogHeader>
         
-        <div className="grid md:grid-cols-5 gap-6 mt-4">
-          <div className="md:col-span-3">
-            <h3 className="text-lg font-semibold mb-3">Redemption Options</h3>
+        {showSuccessScreen ? (
+          <div className="flex flex-col items-center justify-center py-8">
+            <div className="h-20 w-20 rounded-full bg-green-100 flex items-center justify-center mb-6">
+              <Check className="h-10 w-10 text-green-600" />
+            </div>
             
-            <RadioGroup 
-              value={selectedOption?.id || ""}
-              onValueChange={handleOptionSelect}
-              className="space-y-3"
-            >
-              {options.map((option) => (
-                <div
-                  key={option.id}
-                  className="flex items-start space-x-3 border rounded-lg p-3 hover:border-primary cursor-pointer"
-                  onClick={() => handleOptionSelect(option.id)}
+            <h2 className="text-2xl font-bold text-center mb-2">
+              Redemption Successful!
+            </h2>
+            
+            <p className="text-neutral-600 text-center mb-6">
+              Your redemption has been processed successfully.
+            </p>
+            
+            <div className="bg-neutral-50 p-5 rounded-lg w-full max-w-md mb-6">
+              <div className="space-y-3">
+                <div className="flex justify-between">
+                  <span className="text-neutral-500">Transaction ID:</span>
+                  <span className="font-medium">{transactionId}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-neutral-500">Redemption Option:</span>
+                  <span className="font-medium">{selectedOption?.name}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-neutral-500">Points Redeemed:</span>
+                  <span className="font-medium">{pointsToRedeem.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-neutral-500">Value Obtained:</span>
+                  <span className="font-medium">₹{calculateValue().toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-neutral-500">Status:</span>
+                  <span className="text-green-600 font-medium">Completed</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-neutral-500">Date:</span>
+                  <span className="font-medium">{new Date().toLocaleDateString()}</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex space-x-4">
+              <Button onClick={onClose}>Close</Button>
+            </div>
+          </div>
+        ) : (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-6 mt-4">
+              <div className="md:col-span-3 overflow-y-auto max-h-[350px] md:max-h-none">
+                <h3 className="text-lg font-semibold mb-3">Redemption Options</h3>
+                
+                <RadioGroup 
+                  value={selectedOption?.id || ""}
+                  onValueChange={handleOptionSelect}
+                  className="space-y-3"
                 >
-                  <RadioGroupItem value={option.id} id={option.id} className="mt-1" />
-                  <div className="flex-1">
-                    <Label htmlFor={option.id} className="font-medium cursor-pointer">
-                      {option.name}
-                    </Label>
-                    <p className="text-sm text-neutral-600">{option.description}</p>
-                    <div className="flex items-center mt-1 text-sm">
-                      <span className="text-neutral-700 font-medium">₹{option.conversionRate}</span>
-                      <span className="text-neutral-500 mx-1">per point</span>
-                      {option.minPoints > 0 && (
-                        <span className="text-xs px-2 py-0.5 bg-neutral-100 text-neutral-600 rounded-full">
-                          Min {option.minPoints.toLocaleString()} pts
-                        </span>
-                      )}
+                  {options.map((option) => (
+                    <div
+                      key={option.id}
+                      className="flex items-start space-x-3 border rounded-lg p-3 hover:border-primary cursor-pointer"
+                      onClick={() => handleOptionSelect(option.id)}
+                    >
+                      <RadioGroupItem value={option.id} id={option.id} className="mt-1" />
+                      <div className="flex-1">
+                        <Label htmlFor={option.id} className="font-medium cursor-pointer">
+                          {option.name}
+                        </Label>
+                        <p className="text-sm text-neutral-600">{option.description}</p>
+                        <div className="flex items-center mt-1 text-sm">
+                          <span className="text-neutral-700 font-medium">₹{option.conversionRate}</span>
+                          <span className="text-neutral-500 mx-1">per point</span>
+                          {option.minPoints > 0 && (
+                            <span className="text-xs px-2 py-0.5 bg-neutral-100 text-neutral-600 rounded-full">
+                              Min {option.minPoints.toLocaleString()} pts
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </RadioGroup>
+              </div>
+              
+              <div className="md:col-span-2">
+                <div className="bg-neutral-50 p-4 rounded-lg mb-4">
+                  <h3 className="font-medium">Card Details</h3>
+                  <p className="text-sm text-neutral-600">{bank?.name} {card.cardType}</p>
+                  <p className="text-sm text-neutral-600">•••• {card.lastFourDigits}</p>
+                  <div className="mt-2">
+                    <span className="text-sm text-neutral-500">Available Points:</span>
+                    <p className="text-2xl font-bold">{card.points.toLocaleString()}</p>
+                  </div>
+                </div>
+                
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="pointsToRedeem">Points to Redeem</Label>
+                    <div className="flex mt-1">
+                      <Input
+                        id="pointsToRedeem"
+                        type="number"
+                        value={pointsToRedeem}
+                        onChange={(e) => {
+                          setPointsToRedeem(parseInt(e.target.value) || 0);
+                          setRedeemAll(false);
+                        }}
+                        min={1}
+                        max={card.points}
+                        className="flex-1"
+                      />
+                    </div>
+                    <div className="flex items-center mt-2">
+                      <input
+                        type="checkbox"
+                        id="redeemAll"
+                        checked={redeemAll}
+                        onChange={handleRedeemAll}
+                        className="mr-2"
+                      />
+                      <label htmlFor="redeemAll" className="text-sm">Redeem all available points</label>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-primary/10 p-3 rounded-lg">
+                    <div className="flex justify-between text-sm">
+                      <span>Points:</span>
+                      <span>{pointsToRedeem.toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span>Rate:</span>
+                      <span>₹{selectedOption?.conversionRate || 0} per point</span>
+                    </div>
+                    <div className="flex justify-between font-semibold mt-2 text-primary border-t border-primary/20 pt-2">
+                      <span>You'll receive:</span>
+                      <span>₹{calculateValue().toLocaleString()}</span>
                     </div>
                   </div>
                 </div>
-              ))}
-            </RadioGroup>
-          </div>
-          
-          <div className="md:col-span-2">
-            <div className="bg-neutral-50 p-4 rounded-lg mb-4">
-              <h3 className="font-medium">Card Details</h3>
-              <p className="text-sm text-neutral-600">{bank?.name} {card.cardType}</p>
-              <p className="text-sm text-neutral-600">•••• {card.lastFourDigits}</p>
-              <div className="mt-2">
-                <span className="text-sm text-neutral-500">Available Points:</span>
-                <p className="text-2xl font-bold">{card.points.toLocaleString()}</p>
               </div>
             </div>
             
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="pointsToRedeem">Points to Redeem</Label>
-                <div className="flex mt-1">
-                  <Input
-                    id="pointsToRedeem"
-                    type="number"
-                    value={pointsToRedeem}
-                    onChange={(e) => {
-                      setPointsToRedeem(parseInt(e.target.value) || 0);
-                      setRedeemAll(false);
-                    }}
-                    min={1}
-                    max={card.points}
-                    className="flex-1"
-                  />
-                </div>
-                <div className="flex items-center mt-2">
-                  <input
-                    type="checkbox"
-                    id="redeemAll"
-                    checked={redeemAll}
-                    onChange={handleRedeemAll}
-                    className="mr-2"
-                  />
-                  <label htmlFor="redeemAll" className="text-sm">Redeem all available points</label>
-                </div>
-              </div>
-              
-              <div className="bg-primary/10 p-3 rounded-lg">
-                <div className="flex justify-between text-sm">
-                  <span>Points:</span>
-                  <span>{pointsToRedeem.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span>Rate:</span>
-                  <span>₹{selectedOption?.conversionRate || 0} per point</span>
-                </div>
-                <div className="flex justify-between font-semibold mt-2 text-primary border-t border-primary/20 pt-2">
-                  <span>You'll receive:</span>
-                  <span>₹{calculateValue().toLocaleString()}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <DialogFooter className="mt-6">
-          <DialogClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DialogClose>
-          <Button 
-            onClick={handleRedeem}
-            disabled={
-              redeemMutation.isPending || 
-              !selectedOption || 
-              pointsToRedeem <= 0 ||
-              pointsToRedeem > card.points ||
-              (selectedOption?.minPoints ? pointsToRedeem < selectedOption.minPoints : false)
-            }
-          >
-            {redeemMutation.isPending ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Processing...
-              </>
-            ) : (
-              <>
-                <Gift className="mr-2 h-4 w-4" />
-                Redeem Points
-              </>
-            )}
-          </Button>
-        </DialogFooter>
+            <DialogFooter className="mt-6">
+              <DialogClose asChild>
+                <Button variant="outline">Cancel</Button>
+              </DialogClose>
+              <Button 
+                onClick={handleRedeem}
+                disabled={
+                  redeemMutation.isPending || 
+                  !selectedOption || 
+                  pointsToRedeem <= 0 ||
+                  pointsToRedeem > card.points ||
+                  (selectedOption?.minPoints ? pointsToRedeem < selectedOption.minPoints : false)
+                }
+              >
+                {redeemMutation.isPending ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Processing...
+                  </>
+                ) : (
+                  <>
+                    <Gift className="mr-2 h-4 w-4" />
+                    Redeem Points
+                  </>
+                )}
+              </Button>
+            </DialogFooter>
+          </>
+        )}
       </DialogContent>
     </Dialog>
   );
