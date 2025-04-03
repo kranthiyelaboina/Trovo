@@ -14,6 +14,7 @@ import ProfilePage from "@/pages/profile-page";
 import SettingsPage from "@/pages/settings-page";
 import { ProtectedRoute } from "./lib/protected-route";
 import { AuthProvider } from "@/hooks/use-auth";
+import { CredAssistant } from "@/components/cred-assistant";
 
 function Router() {
   return (
@@ -42,6 +43,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <Router />
+        <CredAssistant />
         <Toaster />
       </AuthProvider>
     </QueryClientProvider>
