@@ -28,11 +28,13 @@ import {
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
+import { useToast } from "@/hooks/use-toast";
 
 export default function TransactionsPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCard, setSelectedCard] = useState<string>("all");
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+  const { toast } = useToast();
   
   const { data: transactions, isLoading: loadingTransactions } = useQuery<Transaction[]>({
     queryKey: ["/api/transactions"],
@@ -102,6 +104,51 @@ export default function TransactionsPage() {
     setSelectedDate(undefined);
   };
   
+  // Function to export transactions to CSV
+  const exportToCSV = () => {
+    if (!filteredTransactions || filteredTransactions.length === 0) return;
+    
+    // Format each transaction for CSV
+    const csvRows = filteredTransactions.map(transaction => {
+      const card = getCardById(transaction.cardId);
+      const bank = card ? getBankById(card.bankId) : null;
+      const cardName = card && bank ? `${bank?.name || 'Unknown'} ${card.cardType}` : 'Unknown Card';
+      
+      // Format date for CSV (using ISO format for proper date handling in spreadsheets)
+      const date = new Date(transaction.date).toISOString().split('T')[0];
+      
+      return [
+        date,
+        transaction.description,
+        transaction.amount,
+        transaction.pointsEarned,
+        cardName
+      ].join(',');
+    });
+    
+    // Add header row
+    const csvContent = [
+      'Date,Description,Amount,Points,Card',
+      ...csvRows
+    ].join('\n');
+    
+    // Create a blob and download link
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `transactions_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    toast({
+      title: "Transactions exported",
+      description: `${filteredTransactions.length} transactions exported to CSV file.`
+    });
+  };
+  
   return (
     <div className="flex h-screen overflow-hidden bg-background">
       {/* Desktop Sidebar */}
@@ -139,6 +186,7 @@ export default function TransactionsPage() {
               variant="outline"
               className="mt-3 sm:mt-0"
               disabled={!filteredTransactions || filteredTransactions.length === 0}
+              onClick={exportToCSV}
             >
               <Download className="mr-2 h-4 w-4" />
               Export CSV
@@ -203,7 +251,7 @@ export default function TransactionsPage() {
                     const bank = getBankById(card.bankId);
                     return (
                       <SelectItem key={card.id} value={card.id.toString()}>
-                        {bank?.name} {card.cardType}
+                        {bank?.name || 'Unknown'} {card.cardType}
                       </SelectItem>
                     );
                   })}
@@ -282,8 +330,8 @@ export default function TransactionsPage() {
                             <td className="py-3 px-4 text-sm text-neutral-800 font-medium text-right">
                               {formatCurrency(transaction.amount)}
                             </td>
-                            <td className="py-3 px-4 text-sm text-emerald-600 font-medium text-right">
-                              +{transaction.pointsEarned}
+                            <td className={`py-3 px-4 text-sm font-medium text-right ${transaction.pointsEarned >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>
+                              {transaction.pointsEarned >= 0 ? '+' : ''}{transaction.pointsEarned}
                             </td>
                             <td className="py-3 px-4 text-sm text-neutral-600">
                               {card && (
@@ -291,7 +339,7 @@ export default function TransactionsPage() {
                                   <div className={`w-6 h-6 rounded-full ${getBankColor(card.bankId)} flex items-center justify-center text-xs text-white mr-2`}>
                                     {getBankLogo(card.bankId)}
                                   </div>
-                                  <span>{bank?.name} {card.cardType}</span>
+                                  <span>{bank?.name || 'Unknown'} {card.cardType}</span>
                                 </div>
                               )}
                             </td>
