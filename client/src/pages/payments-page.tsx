@@ -92,7 +92,7 @@ export default function PaymentsPage() {
   const paymentMutation = useMutation({
     mutationFn: async (data: PaymentFormValues) => {
       let transactionData: any = {
-        date: new Date().toISOString(),
+        date: new Date(), // Send as Date object, not string
         amount: data.amount,
         description: `UPI Payment to ${data.upiId}`,
       };
