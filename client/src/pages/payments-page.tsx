@@ -92,10 +92,9 @@ export default function PaymentsPage() {
   const paymentMutation = useMutation({
     mutationFn: async (data: PaymentFormValues) => {
       let transactionData: any = {
-        date: new Date(), // Using Date object, not string
+        date: new Date().toISOString(),
         amount: data.amount,
         description: `UPI Payment to ${data.upiId}`,
-        userId: user?.id, // Add userId to match transaction schema
       };
       
       // Determine if this transaction uses points (either "points" payment method or UPI with usePoints)
@@ -159,18 +158,9 @@ export default function PaymentsPage() {
     }
   });
   
-  // Track payment transaction ID
-  const [paymentTransactionId, setPaymentTransactionId] = useState<string>("");
-  
   // Handle payment submission
   const onSubmit = (data: PaymentFormValues) => {
     setIsProcessing(true);
-    
-    // Generate a transaction ID for the receipt
-    const transactionId = Math.random().toString(36).substring(2, 15).toUpperCase();
-    setPaymentTransactionId(transactionId);
-    
-    // Process payment
     paymentMutation.mutate(data);
   };
   
@@ -227,41 +217,6 @@ export default function PaymentsPage() {
                       </div>
                       <h2 className="text-2xl font-bold text-neutral-800 mb-2">Payment Successful!</h2>
                       <p className="text-neutral-600 mb-6">Your payment has been processed successfully.</p>
-                      
-                      <div className="bg-neutral-50 p-5 rounded-lg w-full max-w-md mx-auto mb-6">
-                        <div className="space-y-3 text-left">
-                          <div className="flex justify-between">
-                            <span className="text-neutral-500">Transaction ID:</span>
-                            <span className="font-medium">{paymentTransactionId}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-neutral-500">Recipient:</span>
-                            <span className="font-medium">{form.getValues().upiId}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-neutral-500">Amount:</span>
-                            <span className="font-medium">₹{form.getValues().amount.toLocaleString()}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-neutral-500">Payment Method:</span>
-                            <span className="font-medium">
-                              {form.getValues().paymentMethod === "upi" && "UPI"}
-                              {form.getValues().paymentMethod === "card" && "Credit Card"}
-                              {form.getValues().paymentMethod === "points" && "Reward Points"}
-                              {form.getValues().paymentMethod === "upi" && form.getValues().usePoints && " (with Points)"}
-                            </span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-neutral-500">Status:</span>
-                            <span className="text-green-600 font-medium">Completed</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-neutral-500">Date:</span>
-                            <span className="font-medium">{new Date().toLocaleDateString()}</span>
-                          </div>
-                        </div>
-                      </div>
-                      
                       <Button onClick={handleNewPayment}>Make Another Payment</Button>
                     </div>
                   ) : (
