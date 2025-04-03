@@ -74,7 +74,7 @@ export default function AuthPage() {
           <CardHeader>
             <div className="flex items-center mb-2">
               <Shield className="h-6 w-6 text-primary mr-2" />
-              <CardTitle className="text-2xl font-bold text-primary">CredPal</CardTitle>
+              <CardTitle className="text-2xl font-bold text-primary">Trovo</CardTitle>
             </div>
             <CardDescription>
               Your digital credit card rewards manager

@@ -48,7 +48,7 @@ function getCustomResponse(message: string, dashboard?: DashboardData): string |
       message.includes('what are you') || 
       message.includes('introduce yourself') ||
       message.includes('tell me about yourself')) {
-    return "I am an AI assistant developed by team CredPal to assist you with managing your credit card points. I can help you find the best redemption options, check your point values, track expiring points, and recommend cards based on your spending habits. How can I help you today?";
+    return "I am an AI assistant developed by Team Trovo (i.e., Team Z-18) to assist you with managing your credit card points. I can help you find the best redemption options, check your point values, track expiring points, and recommend cards based on your spending habits. How can I help you today?";
   }
   
   // Handle standard queries from suggestion chips
@@ -57,7 +57,7 @@ function getCustomResponse(message: string, dashboard?: DashboardData): string |
       .map(opt => `• **${opt.name}**: ${opt.value} _(${opt.tag})_`)
       .join('\n');
     
-    return `### Current Best Redemption Options\n\n${optionsText}\n\nYou can redeem these in the Redemption section of your CredPal dashboard. Would you like more details on any specific option?`;
+    return `### Current Best Redemption Options\n\n${optionsText}\n\nYou can redeem these in the Redemption section of your Trovo dashboard. Would you like more details on any specific option?`;
   }
   
   if (message === 'value of my points') {
@@ -89,7 +89,7 @@ function getCustomResponse(message: string, dashboard?: DashboardData): string |
   }
   
   if (message === 'payment help') {
-    return `To make a payment on your credit card:\n\n1. Go to the Payments section in the CredPal app\n2. Select the card you want to make a payment for\n3. Enter the payment amount\n4. Choose your payment method (UPI, Bank Transfer, etc.)\n5. Confirm the payment\n\nPayments typically reflect within 1-2 business days. Would you like help with anything else related to payments?`;
+    return `To make a payment on your credit card:\n\n1. Go to the Payments section in the Trovo app\n2. Select the card you want to make a payment for\n3. Enter the payment amount\n4. Choose your payment method (UPI, Bank Transfer, etc.)\n5. Confirm the payment\n\nPayments typically reflect within 1-2 business days. Would you like help with anything else related to payments?`;
   }
   
   // No custom response needed, use the AI model
@@ -112,7 +112,7 @@ router.post('/completions', async (req, res) => {
     const customResponse = getCustomResponse(latestUserMessage, dashboardData);
     if (customResponse) {
       return res.json({
-        id: `credpal-${Date.now()}`,
+        id: `trovo-${Date.now()}`,
         choices: [{
           message: {
             role: 'assistant',
@@ -125,7 +125,7 @@ router.post('/completions', async (req, res) => {
     // If not a custom response, add our custom system prompt to ensure consistent identity
     const systemPrompt = {
       role: "system",
-      content: "You are CredPal Assistant, developed by team CredPal to assist customers with their credit card points management. Always identify yourself as 'CredPal Assistant' not as Gemini or any other AI. Be friendly, helpful, concise, and maintain a professional tone. Focus on credit card points management, redemption options, and maximizing value. If users ask specific account questions you can't answer, guide them to the relevant section of the app. Use Indian Rupee (₹) symbols when discussing monetary values."
+      content: "You are Trovo Assistant, developed by team Trovo (i.e., Team Z-18) to assist customers with their credit card points management. Always identify yourself as 'Trovo Assistant' not as Gemini or any other AI. Be friendly, helpful, concise, and maintain a professional tone. Focus on credit card points management, redemption options, and maximizing value. If users ask specific account questions you can't answer, guide them to the relevant section of the app. Use Indian Rupee (₹) symbols when discussing monetary values."
     };
     
     // Prepare messages with our custom system prompt
@@ -165,7 +165,7 @@ router.post('/completions', async (req, res) => {
       
       console.error('Gemini API Error:', errorData);
       return res.status(response.status).json({ 
-        error: 'Failed to get response from CredPal Assistant',
+        error: 'Failed to get response from Trovo Assistant',
         details: errorData
       });
     }
@@ -174,7 +174,7 @@ router.post('/completions', async (req, res) => {
     
     // Convert Gemini response to ChatGPT-like format for compatibility
     const formattedResponse = {
-      id: `credpal-${Date.now()}`,
+      id: `trovo-${Date.now()}`,
       choices: [{
         message: {
           role: 'assistant',

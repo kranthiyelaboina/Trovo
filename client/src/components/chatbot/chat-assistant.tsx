@@ -45,7 +45,7 @@ export default function ChatAssistant() {
     if (isOpen && messages.length === 0) {
       setMessages([{
         role: 'assistant',
-        content: "👋 Hello! I'm your CredPal Assistant. How can I help you with your credit card points today?"
+        content: "👋 Hello! I'm your Trovo Assistant. How can I help you with your credit card points today?"
       }]);
     }
   }, [isOpen, messages.length]);
@@ -168,7 +168,7 @@ export default function ChatAssistant() {
       
       toast({
         title: "Connection Error",
-        description: "Could not connect to the CredPal Assistant. Please try again later.",
+        description: "Could not connect to the Trovo Assistant. Please try again later.",
         variant: "destructive",
       });
     } finally {
@@ -195,7 +195,7 @@ export default function ChatAssistant() {
         <div className="bg-[#007bff] text-white p-4 flex justify-between items-center cursor-move chat-header select-none">
           <div className="flex items-center">
             <Bot size={18} className="mr-2 animate-pulse" />
-            <h3 className="font-semibold">CredPal Assistant</h3>
+            <h3 className="font-semibold">Trovo Assistant</h3>
           </div>
           <button 
             onClick={toggleChat} 
@@ -232,7 +232,7 @@ export default function ChatAssistant() {
                   msg.role === 'user' ? 'text-right mr-1' : 'ml-1'
                 }`}
               >
-                {msg.role === 'user' ? 'You' : 'CredPal Assistant'}
+                {msg.role === 'user' ? 'You' : 'Trovo Assistant'}
               </div>
             </div>
           ))}
@@ -244,7 +244,7 @@ export default function ChatAssistant() {
                 <div className="h-2 w-2 bg-[#007bff] rounded-full animate-bounce" style={{ animationDelay: '400ms' }}></div>
               </div>
               <div className="text-xs mt-1 ml-1 text-muted-foreground">
-                CredPal Assistant is typing...
+                Trovo Assistant is typing...
               </div>
             </div>
           )}
