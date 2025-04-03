@@ -60,24 +60,40 @@ export const insertCardSchema = createInsertSchema(cards).pick({
   pointsExpiryDate: true,
 });
 
-export const insertTransactionSchema = createInsertSchema(transactions).pick({
-  cardId: true,
-  userId: true,
-  date: true,
-  description: true,
-  amount: true,
-  pointsEarned: true,
-});
+export const insertTransactionSchema = createInsertSchema(transactions)
+  .pick({
+    cardId: true,
+    userId: true,
+    date: true,
+    description: true,
+    amount: true,
+    pointsEarned: true,
+  })
+  .extend({
+    // Ensure we can accept either Date objects or ISO strings
+    date: z.union([
+      z.date(),
+      z.string().transform(str => new Date(str))
+    ])
+  });
 
-export const insertRedemptionSchema = createInsertSchema(redemptions).pick({
-  userId: true,
-  cardId: true,
-  optionId: true,
-  pointsUsed: true,
-  valueObtained: true,
-  status: true,
-  date: true,
-});
+export const insertRedemptionSchema = createInsertSchema(redemptions)
+  .pick({
+    userId: true,
+    cardId: true,
+    optionId: true,
+    pointsUsed: true,
+    valueObtained: true,
+    status: true,
+    date: true,
+  })
+  .extend({
+    // Ensure we can accept either Date objects or ISO strings
+    date: z.union([
+      z.date(),
+      z.string().transform(str => new Date(str))
+    ])
+  });
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
