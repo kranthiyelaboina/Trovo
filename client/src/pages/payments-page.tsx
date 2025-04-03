@@ -114,14 +114,6 @@ export default function PaymentsPage() {
         const pointsEarned = (isPointsPayment || isUpiWithPoints)
           ? -Math.ceil(data.amount / conversionRate) // Negative for points spent
           : Math.ceil(data.amount * 0.01); // 1% cashback on card payments
-        
-        // Check if there are sufficient points for points-based payments
-        if ((isPointsPayment || isUpiWithPoints) && cards) {
-          const selectedCard = cards.find(card => card.id === cardId);
-          if (selectedCard && Math.abs(pointsEarned) > selectedCard.points) {
-            throw new Error("Insufficient points for this transaction");
-          }
-        }
           
         transactionData = {
           ...transactionData,
