@@ -80,12 +80,12 @@ export default function RedemptionPage() {
       <Sidebar />
       
       {/* Mobile Header & Sidebar */}
-      <header className="md:hidden bg-white p-4 shadow z-10 fixed top-0 left-0 right-0 flex items-center justify-between">
+      <header className="md:hidden bg-white dark:bg-neutral-900 p-4 shadow z-10 fixed top-0 left-0 right-0 flex items-center justify-between">
         <h1 className="text-xl font-bold text-primary flex items-center">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 mr-2">
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
           </svg>
-          CredPal
+          Trovo
         </h1>
         
         <Sheet>
@@ -105,32 +105,32 @@ export default function RedemptionPage() {
         <main className="flex-1 overflow-y-auto bg-background p-4 md:p-6">
           {/* Page Title */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
-            <h1 className="text-2xl font-bold text-neutral-800">Redemption Marketplace</h1>
+            <h1 className="text-2xl font-bold text-neutral-800 dark:text-white">Redemption Marketplace</h1>
           </div>
           
           {/* Points Summary */}
           <Card className="mb-6">
             <CardContent className="pt-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="bg-neutral-50 p-4 rounded-lg">
-                  <h4 className="text-sm font-medium text-neutral-600">Available Points</h4>
-                  <p className="text-2xl font-bold mt-1">
+                <div className="bg-neutral-50 dark:bg-neutral-800/50 p-4 rounded-lg">
+                  <h4 className="text-sm font-medium text-neutral-600 dark:text-neutral-300">Available Points</h4>
+                  <p className="text-2xl font-bold mt-1 dark:text-white">
                     {isLoading ? (
                       <Loader2 className="h-6 w-6 animate-spin text-primary" />
                     ) : getTotalPoints().toLocaleString()}
                   </p>
                 </div>
-                <div className="bg-neutral-50 p-4 rounded-lg">
-                  <h4 className="text-sm font-medium text-neutral-600">Cards</h4>
-                  <p className="text-2xl font-bold mt-1">
+                <div className="bg-neutral-50 dark:bg-neutral-800/50 p-4 rounded-lg">
+                  <h4 className="text-sm font-medium text-neutral-600 dark:text-neutral-300">Cards</h4>
+                  <p className="text-2xl font-bold mt-1 dark:text-white">
                     {isLoading ? (
                       <Loader2 className="h-6 w-6 animate-spin text-primary" />
                     ) : cards?.length || 0}
                   </p>
                 </div>
-                <div className="bg-neutral-50 p-4 rounded-lg">
-                  <h4 className="text-sm font-medium text-neutral-600">Redemption Options</h4>
-                  <p className="text-2xl font-bold mt-1">
+                <div className="bg-neutral-50 dark:bg-neutral-800/50 p-4 rounded-lg">
+                  <h4 className="text-sm font-medium text-neutral-600 dark:text-neutral-300">Redemption Options</h4>
+                  <p className="text-2xl font-bold mt-1 dark:text-white">
                     {allOptions.length}
                   </p>
                 </div>
@@ -169,7 +169,7 @@ export default function RedemptionPage() {
                   {filteredOptions.map((option) => (
                     <div 
                       key={option.id}
-                      className="border border-neutral-200 rounded-lg p-4 hover:border-primary hover:shadow-md transition-all"
+                      className="border border-neutral-200 dark:border-neutral-700 rounded-lg p-4 hover:border-primary hover:shadow-md transition-all dark:bg-neutral-800/50"
                     >
                       <div className="flex items-center justify-between mb-3">
                         {option.tag && (
@@ -177,7 +177,7 @@ export default function RedemptionPage() {
                             {option.tag.text}
                           </span>
                         )}
-                        <div className="p-2 rounded-md bg-neutral-100">
+                        <div className="p-2 rounded-md bg-neutral-100 dark:bg-neutral-700">
                           <svg 
                             xmlns="http://www.w3.org/2000/svg" 
                             viewBox="0 0 24 24" 
@@ -186,7 +186,7 @@ export default function RedemptionPage() {
                             strokeWidth="2" 
                             strokeLinecap="round" 
                             strokeLinejoin="round" 
-                            className="h-4 w-4 text-neutral-600"
+                            className="h-4 w-4 text-neutral-600 dark:text-neutral-300"
                           >
                             {option.category === "Cashback" && <path d="M4 3h16a2 2 0 0 1 2 2v6a10 10 0 0 1-10 10A10 10 0 0 1 2 11V5a2 2 0 0 1 2-2z" />}
                             {option.category === "Travel" && <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />}
@@ -196,14 +196,14 @@ export default function RedemptionPage() {
                         </div>
                       </div>
                       
-                      <h3 className="font-semibold text-neutral-800 mb-1">{option.name}</h3>
-                      <p className="text-sm text-neutral-600 mb-3">{option.description}</p>
+                      <h3 className="font-semibold text-neutral-800 dark:text-white mb-1">{option.name}</h3>
+                      <p className="text-sm text-neutral-600 dark:text-neutral-300 mb-3">{option.description}</p>
                       
-                      <div className="flex items-center text-sm text-neutral-500 mb-4">
-                        <span className="font-medium text-neutral-800">₹{option.conversionRate}</span>
+                      <div className="flex items-center text-sm text-neutral-500 dark:text-neutral-400 mb-4">
+                        <span className="font-medium text-neutral-800 dark:text-white">₹{option.conversionRate}</span>
                         <span className="mx-2">per point</span>
                         {option.minPoints > 0 && (
-                          <span className="text-xs px-2 py-1 bg-neutral-200 text-neutral-600 rounded-full">
+                          <span className="text-xs px-2 py-1 bg-neutral-200 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-300 rounded-full">
                             Min {option.minPoints.toLocaleString()} pts
                           </span>
                         )}
@@ -221,9 +221,9 @@ export default function RedemptionPage() {
                 </div>
                 
                 {filteredOptions.length === 0 && (
-                  <div className="text-center py-12 bg-neutral-50 rounded-lg">
-                    <p className="text-neutral-600 font-medium">No redemption options found</p>
-                    <p className="text-neutral-500 text-sm mt-1">Try adjusting your search or category</p>
+                  <div className="text-center py-12 bg-neutral-50 dark:bg-neutral-800/50 rounded-lg">
+                    <p className="text-neutral-600 dark:text-neutral-300 font-medium">No redemption options found</p>
+                    <p className="text-neutral-500 dark:text-neutral-400 text-sm mt-1">Try adjusting your search or category</p>
                   </div>
                 )}
               </TabsContent>

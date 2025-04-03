@@ -180,7 +180,7 @@ export default function TransactionsPage() {
         <main className="flex-1 overflow-y-auto bg-background p-4 md:p-6">
           {/* Page Title */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
-            <h1 className="text-2xl font-bold text-neutral-800">Transactions History</h1>
+            <h1 className="text-2xl font-bold text-neutral-800 dark:text-white">Transactions History</h1>
             
             <Button 
               variant="outline"
@@ -197,25 +197,25 @@ export default function TransactionsPage() {
           <Card className="mb-6">
             <CardContent className="pt-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="bg-neutral-50 p-4 rounded-lg">
-                  <h4 className="text-sm font-medium text-neutral-600">Total Transactions</h4>
-                  <p className="text-2xl font-bold mt-1">
+                <div className="bg-neutral-50 dark:bg-neutral-800/50 p-4 rounded-lg">
+                  <h4 className="text-sm font-medium text-neutral-600 dark:text-neutral-300">Total Transactions</h4>
+                  <p className="text-2xl font-bold mt-1 dark:text-white">
                     {isLoading ? (
                       <Loader2 className="h-6 w-6 animate-spin text-primary" />
                     ) : filteredTransactions?.length || 0}
                   </p>
                 </div>
-                <div className="bg-neutral-50 p-4 rounded-lg">
-                  <h4 className="text-sm font-medium text-neutral-600">Total Amount</h4>
-                  <p className="text-2xl font-bold mt-1">
+                <div className="bg-neutral-50 dark:bg-neutral-800/50 p-4 rounded-lg">
+                  <h4 className="text-sm font-medium text-neutral-600 dark:text-neutral-300">Total Amount</h4>
+                  <p className="text-2xl font-bold mt-1 dark:text-white">
                     {isLoading ? (
                       <Loader2 className="h-6 w-6 animate-spin text-primary" />
                     ) : formatCurrency(getTotalSpent())}
                   </p>
                 </div>
-                <div className="bg-neutral-50 p-4 rounded-lg">
-                  <h4 className="text-sm font-medium text-neutral-600">Total Points Earned</h4>
-                  <p className="text-2xl font-bold mt-1">
+                <div className="bg-neutral-50 dark:bg-neutral-800/50 p-4 rounded-lg">
+                  <h4 className="text-sm font-medium text-neutral-600 dark:text-neutral-300">Total Points Earned</h4>
+                  <p className="text-2xl font-bold mt-1 dark:text-white">
                     {isLoading ? (
                       <Loader2 className="h-6 w-6 animate-spin text-primary" />
                     ) : getTotalPointsEarned().toLocaleString()}
@@ -298,20 +298,20 @@ export default function TransactionsPage() {
                   <Loader2 className="h-8 w-8 animate-spin text-primary" />
                 </div>
               ) : !filteredTransactions || filteredTransactions.length === 0 ? (
-                <div className="text-center py-12 bg-neutral-50 rounded-lg">
-                  <p className="text-neutral-600 font-medium">No transactions found</p>
-                  <p className="text-neutral-500 text-sm mt-1">Try adjusting your filters</p>
+                <div className="text-center py-12 bg-neutral-50 dark:bg-neutral-800/50 rounded-lg">
+                  <p className="text-neutral-600 dark:text-neutral-300 font-medium">No transactions found</p>
+                  <p className="text-neutral-500 dark:text-neutral-400 text-sm mt-1">Try adjusting your filters</p>
                 </div>
               ) : (
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead>
-                      <tr className="border-b border-neutral-200">
-                        <th className="text-left py-3 px-4 text-sm font-semibold text-neutral-600">Date</th>
-                        <th className="text-left py-3 px-4 text-sm font-semibold text-neutral-600">Description</th>
-                        <th className="text-right py-3 px-4 text-sm font-semibold text-neutral-600">Amount</th>
-                        <th className="text-right py-3 px-4 text-sm font-semibold text-neutral-600">Points</th>
-                        <th className="text-left py-3 px-4 text-sm font-semibold text-neutral-600">Card</th>
+                      <tr className="border-b border-neutral-200 dark:border-neutral-700">
+                        <th className="text-left py-3 px-4 text-sm font-semibold text-neutral-600 dark:text-neutral-300">Date</th>
+                        <th className="text-left py-3 px-4 text-sm font-semibold text-neutral-600 dark:text-neutral-300">Description</th>
+                        <th className="text-right py-3 px-4 text-sm font-semibold text-neutral-600 dark:text-neutral-300">Amount</th>
+                        <th className="text-right py-3 px-4 text-sm font-semibold text-neutral-600 dark:text-neutral-300">Points</th>
+                        <th className="text-left py-3 px-4 text-sm font-semibold text-neutral-600 dark:text-neutral-300">Card</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -320,20 +320,20 @@ export default function TransactionsPage() {
                         const bank = card ? getBankById(card.bankId) : null;
                         
                         return (
-                          <tr key={transaction.id} className="border-b border-neutral-100 hover:bg-neutral-50">
-                            <td className="py-3 px-4 text-sm text-neutral-700">
+                          <tr key={transaction.id} className="border-b border-neutral-100 dark:border-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-800">
+                            <td className="py-3 px-4 text-sm text-neutral-700 dark:text-neutral-300">
                               {formatDate(transaction.date)}
                             </td>
-                            <td className="py-3 px-4 text-sm text-neutral-800 font-medium">
+                            <td className="py-3 px-4 text-sm text-neutral-800 dark:text-white font-medium">
                               {transaction.description}
                             </td>
-                            <td className="py-3 px-4 text-sm text-neutral-800 font-medium text-right">
+                            <td className="py-3 px-4 text-sm text-neutral-800 dark:text-white font-medium text-right">
                               {formatCurrency(transaction.amount)}
                             </td>
                             <td className={`py-3 px-4 text-sm font-medium text-right ${transaction.pointsEarned >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>
                               {transaction.pointsEarned >= 0 ? '+' : ''}{transaction.pointsEarned}
                             </td>
-                            <td className="py-3 px-4 text-sm text-neutral-600">
+                            <td className="py-3 px-4 text-sm text-neutral-600 dark:text-neutral-400">
                               {card && (
                                 <div className="flex items-center">
                                   <div className={`w-6 h-6 rounded-full ${getBankColor(card.bankId)} flex items-center justify-center text-xs text-white mr-2`}>

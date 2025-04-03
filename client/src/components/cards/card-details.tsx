@@ -124,13 +124,13 @@ export default function CardDetails({ card, open, onClose }: CardDetailsProps) {
           </div>
           
           <div className="grid grid-cols-2 gap-4 mb-6">
-            <div className="bg-neutral-50 p-4 rounded-lg">
-              <h4 className="text-sm text-neutral-500 mb-1">Points Balance</h4>
-              <p className="text-2xl font-bold">{card.points.toLocaleString()}</p>
+            <div className="bg-neutral-50 dark:bg-neutral-800/50 p-4 rounded-lg">
+              <h4 className="text-sm text-neutral-500 dark:text-neutral-300 mb-1">Points Balance</h4>
+              <p className="text-2xl font-bold dark:text-white">{card.points.toLocaleString()}</p>
             </div>
-            <div className="bg-neutral-50 p-4 rounded-lg">
-              <h4 className="text-sm text-neutral-500 mb-1">Points Value</h4>
-              <p className="text-2xl font-bold">₹{(card.points * conversionRate).toLocaleString()}</p>
+            <div className="bg-neutral-50 dark:bg-neutral-800/50 p-4 rounded-lg">
+              <h4 className="text-sm text-neutral-500 dark:text-neutral-300 mb-1">Points Value</h4>
+              <p className="text-2xl font-bold dark:text-white">₹{(card.points * conversionRate).toLocaleString()}</p>
             </div>
           </div>
           
@@ -146,26 +146,26 @@ export default function CardDetails({ card, open, onClose }: CardDetailsProps) {
                   <Loader2 className="h-6 w-6 animate-spin text-primary" />
                 </div>
               ) : !transactions || transactions.length === 0 ? (
-                <div className="text-center py-8 bg-neutral-50 rounded-lg">
-                  <p className="text-neutral-500">No transactions found for this card</p>
+                <div className="text-center py-8 bg-neutral-50 dark:bg-neutral-800/50 rounded-lg">
+                  <p className="text-neutral-500 dark:text-neutral-300">No transactions found for this card</p>
                 </div>
               ) : (
-                <div className="max-h-[300px] overflow-y-auto border rounded-lg">
+                <div className="max-h-[300px] overflow-y-auto border dark:border-neutral-700 rounded-lg">
                   <table className="w-full">
-                    <thead className="bg-neutral-50 sticky top-0">
+                    <thead className="bg-neutral-50 dark:bg-neutral-800/70 sticky top-0">
                       <tr>
-                        <th className="text-left py-2 px-4 text-sm font-semibold text-neutral-600">Date</th>
-                        <th className="text-left py-2 px-4 text-sm font-semibold text-neutral-600">Description</th>
-                        <th className="text-right py-2 px-4 text-sm font-semibold text-neutral-600">Amount</th>
-                        <th className="text-right py-2 px-4 text-sm font-semibold text-neutral-600">Points</th>
+                        <th className="text-left py-2 px-4 text-sm font-semibold text-neutral-600 dark:text-neutral-300">Date</th>
+                        <th className="text-left py-2 px-4 text-sm font-semibold text-neutral-600 dark:text-neutral-300">Description</th>
+                        <th className="text-right py-2 px-4 text-sm font-semibold text-neutral-600 dark:text-neutral-300">Amount</th>
+                        <th className="text-right py-2 px-4 text-sm font-semibold text-neutral-600 dark:text-neutral-300">Points</th>
                       </tr>
                     </thead>
                     <tbody>
                       {transactions.map((transaction) => (
-                        <tr key={transaction.id} className="border-t border-neutral-100">
-                          <td className="py-2 px-4 text-sm">{formatDate(transaction.date)}</td>
-                          <td className="py-2 px-4 text-sm font-medium">{transaction.description}</td>
-                          <td className="py-2 px-4 text-sm text-right">₹{transaction.amount.toLocaleString()}</td>
+                        <tr key={transaction.id} className="border-t border-neutral-100 dark:border-neutral-800">
+                          <td className="py-2 px-4 text-sm dark:text-neutral-300">{formatDate(transaction.date)}</td>
+                          <td className="py-2 px-4 text-sm font-medium dark:text-white">{transaction.description}</td>
+                          <td className="py-2 px-4 text-sm text-right dark:text-neutral-300">₹{transaction.amount.toLocaleString()}</td>
                           <td className="py-2 px-4 text-sm text-emerald-600 font-medium text-right">+{transaction.pointsEarned}</td>
                         </tr>
                       ))}
@@ -179,38 +179,38 @@ export default function CardDetails({ card, open, onClose }: CardDetailsProps) {
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <h4 className="text-sm font-medium">Bank</h4>
-                    <p>{bank?.name}</p>
+                    <h4 className="text-sm font-medium dark:text-neutral-300">Bank</h4>
+                    <p className="dark:text-white">{bank?.name}</p>
                   </div>
                   <div>
-                    <h4 className="text-sm font-medium">Card Type</h4>
-                    <p>{card.cardType}</p>
+                    <h4 className="text-sm font-medium dark:text-neutral-300">Card Type</h4>
+                    <p className="dark:text-white">{card.cardType}</p>
                   </div>
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <h4 className="text-sm font-medium">Card Number</h4>
-                    <p>•••• •••• •••• {card.lastFourDigits}</p>
+                    <h4 className="text-sm font-medium dark:text-neutral-300">Card Number</h4>
+                    <p className="dark:text-white">•••• •••• •••• {card.lastFourDigits}</p>
                   </div>
                   <div>
-                    <h4 className="text-sm font-medium">Expiry Date</h4>
-                    <p>{card.expiryDate}</p>
+                    <h4 className="text-sm font-medium dark:text-neutral-300">Expiry Date</h4>
+                    <p className="dark:text-white">{card.expiryDate}</p>
                   </div>
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <h4 className="text-sm font-medium">Conversion Rate</h4>
-                    <p>₹{conversionRate} per point</p>
+                    <h4 className="text-sm font-medium dark:text-neutral-300">Conversion Rate</h4>
+                    <p className="dark:text-white">₹{conversionRate} per point</p>
                   </div>
                   <div>
-                    <h4 className="text-sm font-medium">Points Expiry</h4>
-                    <p>{card.pointsExpiryDate || 'Not specified'}</p>
+                    <h4 className="text-sm font-medium dark:text-neutral-300">Points Expiry</h4>
+                    <p className="dark:text-white">{card.pointsExpiryDate || 'Not specified'}</p>
                   </div>
                 </div>
                 
-                <div className="pt-4 border-t">
+                <div className="pt-4 border-t dark:border-neutral-700">
                   <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
                     <AlertDialogTrigger asChild>
                       <Button variant="destructive" className="w-full">
