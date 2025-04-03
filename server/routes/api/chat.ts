@@ -5,7 +5,7 @@ import fetch from 'node-fetch';
 const router = Router();
 
 // API configuration
-const API_KEY = 'AIzaSyA8v_Y45_ksfTTWt9tZwSRTYW_aoIYPqoM'; // Gemini API key hardcoded directly in the code
+const API_KEY = 'AIzaSyBJz5UAwIAeXxbwgP8fslD8SJENJSUqU64'; // Gemini API key hardcoded directly in the code
 const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
 
 // Type definitions for Gemini API
