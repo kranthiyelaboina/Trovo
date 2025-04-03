@@ -14,6 +14,7 @@ import ProfilePage from "@/pages/profile-page";
 import SettingsPage from "@/pages/settings-page";
 import { ProtectedRoute } from "./lib/protected-route";
 import { AuthProvider } from "@/hooks/use-auth";
+import ChatAssistant from "@/components/chatbot/chat-assistant";
 
 function Router() {
   return (
@@ -43,6 +44,7 @@ function App() {
       <AuthProvider>
         <Router />
         <Toaster />
+        <ChatAssistant />
       </AuthProvider>
     </QueryClientProvider>
   );
