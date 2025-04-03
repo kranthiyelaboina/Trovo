@@ -76,7 +76,7 @@ export class MemStorage implements IStorage {
 
   async createUser(insertUser: InsertUser): Promise<User> {
     const id = this.currentId.users++;
-    const user: User = { ...insertUser, id };
+    const user: User = { ...insertUser, id, preferences: '{"notifications": true, "theme": "light"}' };
     this.users.set(id, user);
     return user;
   }
@@ -94,7 +94,12 @@ export class MemStorage implements IStorage {
 
   async createCard(insertCard: InsertCard): Promise<Card> {
     const id = this.currentId.cards++;
-    const card: Card = { ...insertCard, id };
+    const card: Card = { 
+      ...insertCard, 
+      id,
+      points: insertCard.points ?? 0,
+      pointsExpiryDate: insertCard.pointsExpiryDate ?? null
+    };
     this.cards.set(id, card);
     return card;
   }
@@ -152,7 +157,11 @@ export class MemStorage implements IStorage {
 
   async createRedemption(insertRedemption: InsertRedemption): Promise<Redemption> {
     const id = this.currentId.redemptions++;
-    const redemption: Redemption = { ...insertRedemption, id };
+    const redemption: Redemption = { 
+      ...insertRedemption, 
+      id,
+      status: insertRedemption.status || 'completed'
+    };
     this.redemptions.set(id, redemption);
     
     // Update card points
@@ -247,17 +256,21 @@ export class DatabaseStorage implements IStorage {
 
   // Transaction methods
   async getTransactions(userId: number, limit?: number): Promise<Transaction[]> {
-    let query = db
+    if (limit) {
+      const result = await db
+        .select()
+        .from(transactions)
+        .where(eq(transactions.userId, userId))
+        .orderBy(desc(transactions.date))
+        .limit(limit);
+      return result;
+    }
+    
+    return await db
       .select()
       .from(transactions)
       .where(eq(transactions.userId, userId))
       .orderBy(desc(transactions.date));
-    
-    if (limit) {
-      query = query.limit(limit);
-    }
-    
-    return await query;
   }
 
   async getCardTransactions(cardId: number): Promise<Transaction[]> {

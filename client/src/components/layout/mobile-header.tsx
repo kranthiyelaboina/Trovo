@@ -64,7 +64,7 @@ export default function MobileHeader() {
           <h1 className="text-xl font-bold flex items-center">
             <Shield className="mr-2 h-6 w-6 text-primary" />
             <span className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent dark:from-primary dark:to-primary/80">
-              CredPal
+              Trovo
             </span>
           </h1>
         </div>
