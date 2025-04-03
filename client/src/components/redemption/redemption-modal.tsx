@@ -68,7 +68,7 @@ export default function RedemptionModal({ card, open, onClose, preselectedOption
         pointsUsed: pointsToRedeem,
         valueObtained: Math.round(pointsToRedeem * selectedOption.conversionRate),
         status: "completed",
-        date: new Date().toISOString()
+        date: new Date() // Using Date object, not string
       };
       
       const redemptionRes = await apiRequest("POST", "/api/redemptions", redemptionPayload);
@@ -77,7 +77,7 @@ export default function RedemptionModal({ card, open, onClose, preselectedOption
       // 2. Create a negative points transaction to record the redemption
       const transactionPayload = {
         cardId: card.id,
-        date: new Date().toISOString(),
+        date: new Date(), // Using Date object, not string
         amount: redemptionPayload.valueObtained, // The monetary value of the redemption
         description: `Redeemed ${pointsToRedeem.toLocaleString()} points for ${selectedOption.name}`,
         pointsEarned: -pointsToRedeem // Negative points to show points were spent

@@ -92,9 +92,10 @@ export default function PaymentsPage() {
   const paymentMutation = useMutation({
     mutationFn: async (data: PaymentFormValues) => {
       let transactionData: any = {
-        date: new Date().toISOString(),
+        date: new Date(), // Using Date object, not string
         amount: data.amount,
         description: `UPI Payment to ${data.upiId}`,
+        userId: user?.id, // Add userId to match transaction schema
       };
       
       // Determine if this transaction uses points (either "points" payment method or UPI with usePoints)
