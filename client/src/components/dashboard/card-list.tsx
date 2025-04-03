@@ -69,7 +69,7 @@ export default function CardList({ limit, showViewAll = true }: CardListProps) {
     <>
       <div className="mb-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-neutral-800">My Cards</h2>
+          <h2 className="text-lg font-semibold text-neutral-800 dark:text-white">My Cards</h2>
           <div className="flex space-x-2">
             <Button
               onClick={() => setIsAddCardOpen(true)}
@@ -127,20 +127,20 @@ export default function CardList({ limit, showViewAll = true }: CardListProps) {
                     </div>
                   </div>
                   
-                  <div className="bg-white p-4">
+                  <div className="bg-white dark:bg-neutral-800 p-4">
                     <div className="flex justify-between items-baseline mb-2">
-                      <h4 className="font-semibold">Points Balance</h4>
-                      <span className="text-xl font-bold">{card.points.toLocaleString()}</span>
+                      <h4 className="font-semibold dark:text-white">Points Balance</h4>
+                      <span className="text-xl font-bold dark:text-white">{card.points.toLocaleString()}</span>
                     </div>
                     
                     <div className="flex justify-between text-sm">
-                      <span className="text-neutral-500">Conversion Rate</span>
-                      <span className="font-medium">₹{conversionRate} per point</span>
+                      <span className="text-neutral-500 dark:text-neutral-300">Conversion Rate</span>
+                      <span className="font-medium dark:text-white">₹{conversionRate} per point</span>
                     </div>
                     
                     <div className="flex justify-between text-sm mt-1">
-                      <span className="text-neutral-500">Estimated Value</span>
-                      <span className="font-medium">₹{estimatedValue.toLocaleString()}</span>
+                      <span className="text-neutral-500 dark:text-neutral-300">Estimated Value</span>
+                      <span className="font-medium dark:text-white">₹{estimatedValue.toLocaleString()}</span>
                     </div>
                     
                     <div className="flex justify-between mt-4">
@@ -168,10 +168,10 @@ export default function CardList({ limit, showViewAll = true }: CardListProps) {
             })}
           </div>
         ) : (
-          <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-8 text-center">
-            <CreditCard className="h-12 w-12 mx-auto mb-4 text-neutral-400" />
-            <h3 className="text-lg font-medium text-neutral-800 mb-2">No Cards Added Yet</h3>
-            <p className="text-neutral-500 mb-4">Add your first credit card to start tracking rewards points</p>
+          <div className="bg-neutral-50 dark:bg-neutral-800/50 border border-neutral-200 dark:border-neutral-700 rounded-xl p-8 text-center">
+            <CreditCard className="h-12 w-12 mx-auto mb-4 text-neutral-400 dark:text-neutral-500" />
+            <h3 className="text-lg font-medium text-neutral-800 dark:text-white mb-2">No Cards Added Yet</h3>
+            <p className="text-neutral-500 dark:text-neutral-300 mb-4">Add your first credit card to start tracking rewards points</p>
             <Button onClick={() => setIsAddCardOpen(true)}>
               <CreditCard className="mr-2 h-4 w-4" />
               Add Your First Card
@@ -217,7 +217,7 @@ function CardListSkeleton() {
         {[1, 2, 3].map((i) => (
           <div key={i} className="rounded-xl overflow-hidden shadow-sm">
             <Skeleton className="h-[160px] w-full" />
-            <div className="bg-white p-4">
+            <div className="bg-white dark:bg-neutral-800 p-4">
               <div className="flex justify-between items-baseline mb-2">
                 <Skeleton className="h-5 w-32" />
                 <Skeleton className="h-6 w-16" />
