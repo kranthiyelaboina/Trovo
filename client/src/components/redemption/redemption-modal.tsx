@@ -96,12 +96,19 @@ export default function RedemptionModal({ card, open, onClose, preselectedOption
       queryClient.invalidateQueries({ queryKey: ["/api/dashboard"] });
       queryClient.invalidateQueries({ queryKey: [`/api/cards/${card.id}/transactions`] });
       
+      // Generate a real transaction ID for the success screen when not called directly
+      if (!showSuccessScreen) {
+        const transId = Math.random().toString(36).substring(2, 15).toUpperCase();
+        setTransactionId(transId);
+        setShowSuccessScreen(true);
+      }
+      
       toast({
         title: "Points redeemed successfully!",
         description: selectedOption ? `You have redeemed ${pointsToRedeem.toLocaleString()} points for ${selectedOption.name}` : "",
       });
       
-      onClose();
+      // Don't close the modal - let user see success screen
     },
     onError: (error: Error) => {
       toast({
@@ -170,16 +177,16 @@ export default function RedemptionModal({ card, open, onClose, preselectedOption
       return;
     }
     
-    // For demo purposes, show success screen instead of actual API call
-    // Generate a mock transaction ID
+    // Generate a transaction ID for the success screen
     const mockTransactionId = Math.random().toString(36).substring(2, 15).toUpperCase();
     setTransactionId(mockTransactionId);
-    setShowSuccessScreen(true);
     
-    // Update the card points in the background
-    setTimeout(() => {
-      redeemMutation.mutate();
-    }, 1000);
+    // Process redemption
+    redeemMutation.mutate(undefined, {
+      onSuccess: () => {
+        setShowSuccessScreen(true);
+      }
+    });
   };
   
   const calculateValue = () => {
