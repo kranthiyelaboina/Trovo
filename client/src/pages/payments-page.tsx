@@ -35,6 +35,7 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 
 const paymentFormSchema = z.object({
   upiId: z.string().regex(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9]+$/, "Invalid UPI ID format (e.g. name@upi)"),
@@ -76,7 +77,7 @@ export default function PaymentsPage() {
   
   // Calculate points that would be used for payment
   const amount = form.watch("amount") || 0;
-  const paymentMethod = form.watch("paymentMethod");
+  const selectedPaymentMethod = form.watch("paymentMethod") as string; // Cast to string for TypeScript compatibility
   const usePoints = form.watch("usePoints");
   
   // Calculate points required (using a fixed conversion rate of 0.25)
@@ -87,20 +88,80 @@ export default function PaymentsPage() {
   const availablePoints = selectedCard?.points || 0;
   const canUsePoints = selectedCard && availablePoints >= requiredPoints;
   
-  // Mock payment submission
-  const onSubmit = (data: PaymentFormValues) => {
-    setIsProcessing(true);
-    
-    // Simulate API call delay
-    setTimeout(() => {
+  // Create payment mutation
+  const paymentMutation = useMutation({
+    mutationFn: async (data: PaymentFormValues) => {
+      let transactionData: any = {
+        date: new Date().toISOString(),
+        amount: data.amount,
+        description: `UPI Payment to ${data.upiId}`,
+      };
+      
+      // Determine if this transaction uses points (either "points" payment method or UPI with usePoints)
+      // Using as-casting to handle TypeScript's enum checking
+      const paymentMethod = data.paymentMethod as string;
+      const isPointsPayment = paymentMethod === "points";
+      const isUpiWithPoints = paymentMethod === "upi" && data.usePoints;
+      const isCardPayment = paymentMethod === "card";
+      
+      // If we need a card for this transaction
+      if (isCardPayment || isUpiWithPoints || isPointsPayment) {
+        if (!data.cardId) throw new Error("Card ID is required");
+        const cardId = parseInt(data.cardId);
+        
+        // For points-based payment, calculate points spent
+        // For card payment, calculate points earned (cashback)
+        const pointsEarned = (isPointsPayment || isUpiWithPoints)
+          ? -Math.ceil(data.amount / conversionRate) // Negative for points spent
+          : Math.ceil(data.amount * 0.01); // 1% cashback on card payments
+          
+        transactionData = {
+          ...transactionData,
+          cardId,
+          pointsEarned,
+        };
+      } else {
+        // Regular UPI payment without card/points
+        if (!data.cardId && cards && cards.length > 0) {
+          // Use the first card if available
+          transactionData.cardId = cards[0].id;
+          transactionData.pointsEarned = Math.ceil(data.amount * 0.01); // 1% cashback
+        } else {
+          throw new Error("No card available for this transaction");
+        }
+      }
+      
+      const res = await apiRequest("POST", "/api/transactions", transactionData);
+      return await res.json();
+    },
+    onSuccess: () => {
       setIsProcessing(false);
       setIsPaymentSuccess(true);
       
+      // Invalidate relevant queries to update UI
+      queryClient.invalidateQueries({ queryKey: ["/api/cards"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/transactions"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/dashboard"] });
+      
       toast({
         title: "Payment Successful",
-        description: `₹${data.amount.toLocaleString()} paid to ${data.upiId}`,
+        description: `₹${form.getValues().amount.toLocaleString()} paid to ${form.getValues().upiId}`,
       });
-    }, 2000);
+    },
+    onError: (error: Error) => {
+      setIsProcessing(false);
+      toast({
+        title: "Payment Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  });
+  
+  // Handle payment submission
+  const onSubmit = (data: PaymentFormValues) => {
+    setIsProcessing(true);
+    paymentMutation.mutate(data);
   };
   
   // Reset form for another payment
@@ -238,7 +299,7 @@ export default function PaymentsPage() {
                             )}
                           />
                           
-                          {paymentMethod === "card" && (
+                          {selectedPaymentMethod === "card" && (
                             <FormField
                               control={form.control}
                               name="cardId"
@@ -268,7 +329,7 @@ export default function PaymentsPage() {
                             />
                           )}
                           
-                          {paymentMethod === "points" && (
+                          {selectedPaymentMethod === "points" && (
                             <FormField
                               control={form.control}
                               name="cardId"
@@ -298,7 +359,7 @@ export default function PaymentsPage() {
                             />
                           )}
                           
-                          {paymentMethod === "upi" && cards && cards.length > 0 && (
+                          {selectedPaymentMethod === "upi" && cards && cards.length > 0 && (
                             <div className="flex flex-col space-y-2">
                               <div className="flex items-center space-x-2">
                                 <FormField
@@ -356,7 +417,7 @@ export default function PaymentsPage() {
                           type="submit" 
                           className="w-full"
                           disabled={isProcessing || (
-                            (paymentMethod === "points" || (paymentMethod === "upi" && usePoints)) && 
+                            (selectedPaymentMethod === "points" || (selectedPaymentMethod === "upi" && usePoints)) && 
                             (!selectedCard || !canUsePoints)
                           )}
                         >
@@ -396,7 +457,7 @@ export default function PaymentsPage() {
                           <span className="font-medium">₹{amount.toLocaleString()}</span>
                         </div>
                         
-                        {(paymentMethod === "points" || (paymentMethod === "upi" && usePoints)) && selectedCard && (
+                        {(selectedPaymentMethod === "points" || (selectedPaymentMethod === "upi" && usePoints)) && selectedCard && (
                           <div className="flex justify-between items-center">
                             <span className="text-neutral-600">Points Required</span>
                             <div className="flex flex-col items-end">
@@ -411,7 +472,7 @@ export default function PaymentsPage() {
                         {selectedCard && (
                           <div className="flex justify-between items-center">
                             <span className="text-neutral-600">Available Points</span>
-                            <span className={`font-medium ${availablePoints < requiredPoints && (paymentMethod === "points" || usePoints) ? "text-rose-500" : ""}`}>
+                            <span className={`font-medium ${availablePoints < requiredPoints && (selectedPaymentMethod === "points" || usePoints) ? "text-rose-500" : ""}`}>
                               {selectedCard.points.toLocaleString()} pts
                             </span>
                           </div>

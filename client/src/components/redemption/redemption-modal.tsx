@@ -61,7 +61,8 @@ export default function RedemptionModal({ card, open, onClose, preselectedOption
     mutationFn: async () => {
       if (!selectedOption) throw new Error("No redemption option selected");
       
-      const payload = {
+      // 1. Create redemption record
+      const redemptionPayload = {
         cardId: card.id,
         optionId: selectedOption.id,
         pointsUsed: pointsToRedeem,
@@ -70,12 +71,28 @@ export default function RedemptionModal({ card, open, onClose, preselectedOption
         date: new Date().toISOString()
       };
       
-      const res = await apiRequest("POST", "/api/redemptions", payload);
-      return await res.json();
+      const redemptionRes = await apiRequest("POST", "/api/redemptions", redemptionPayload);
+      const redemptionData = await redemptionRes.json();
+      
+      // 2. Create a negative points transaction to record the redemption
+      const transactionPayload = {
+        cardId: card.id,
+        date: new Date().toISOString(),
+        amount: redemptionPayload.valueObtained, // The monetary value of the redemption
+        description: `Redeemed ${pointsToRedeem.toLocaleString()} points for ${selectedOption.name}`,
+        pointsEarned: -pointsToRedeem // Negative points to show points were spent
+      };
+      
+      const transactionRes = await apiRequest("POST", "/api/transactions", transactionPayload);
+      await transactionRes.json();
+      
+      return redemptionData; // Return the redemption data
     },
     onSuccess: () => {
+      // Invalidate all relevant queries to refresh data
       queryClient.invalidateQueries({ queryKey: ["/api/cards"] });
       queryClient.invalidateQueries({ queryKey: ["/api/redemptions"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/transactions"] });
       queryClient.invalidateQueries({ queryKey: ["/api/dashboard"] });
       queryClient.invalidateQueries({ queryKey: [`/api/cards/${card.id}/transactions`] });
       
