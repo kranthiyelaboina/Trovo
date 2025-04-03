@@ -4,10 +4,14 @@ import { storage } from "./storage";
 import { setupAuth } from "./auth";
 import { z } from "zod";
 import { insertCardSchema, insertTransactionSchema, insertRedemptionSchema } from "@shared/schema";
+import chatRouter from "./routes/api/chat";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Set up authentication routes
   setupAuth(app);
+  
+  // Set up chat API routes
+  app.use('/api/chat', chatRouter);
 
   // Card routes
   app.get("/api/cards", async (req, res, next) => {
