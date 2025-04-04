@@ -1,10 +1,9 @@
 
 ---
 
-```markdown
 # Trovo
 
-Trovo is an **intelligent credit card reward point optimizer** designed to unify and streamline reward points from multiple banks, ensuring users maximize their redemption options. It addresses the common pain points of fragmented reward systems, complex redemption processes, and unused points.
+Trovo is an **intelligent credit card reward point partner** designed to unify and streamline reward points from multiple banks, ensuring users maximize their redemption options. Developed as part of the **HackHInII 2025** event under the "PointsPAL: Revolutionizing Credit Card Rewards Redemption" project, Trovo addresses the significant issue of unredeemed rewards in India, where over ₹12,500 crores worth of credit card points expire annually. This platform provides a centralized solution to manage, track, and optimize reward points, transforming forgotten points into financial freedom.
 
 ---
 
@@ -23,25 +22,28 @@ Trovo is an **intelligent credit card reward point optimizer** designed to unify
 
 ## Overview
 
-Millions of credit card reward points go unredeemed every year due to a lack of awareness, complicated redemption processes, and fragmented systems. **Trovo** tackles this by offering a single, user-friendly platform to view, track, and optimize reward points from various cards and banks. By harnessing AI/ML, Trovo provides personalized insights, frictionless UPI conversion, and cross-bank reward pooling.
+The credit card rewards ecosystem in India suffers from fragmentation, complex redemption processes, and a lack of awareness, leading to substantial value leakage for consumers and financial institutions. Trovo tackles these challenges by offering a single, user-friendly platform that aggregates reward points from major Indian banks (HDFC, ICICI, SBI, Axis, Kotak, Amex), provides real-time analytics, and leverages AI/ML for personalized redemption strategies. Inspired by the "PointsPAL" concept, Trovo enables cross-bank point pooling, frictionless UPI integration, and micro-loan options, empowering users to reclaim an average of ₹4,200 annually in lost rewards.
 
 ---
 
 ## Features
 
-- **Unified Dashboard**: Aggregate reward points from multiple banks.  
-- **Real-Time Analytics**: Monitor reward points, expiration dates, and usage patterns.  
-- **Intelligent Recommendations**: Leverage ML models to suggest optimal redemption strategies.  
-- **Secure Authentication**: JWT-based auth, password hashing (bcrypt).  
-- **Scalable Architecture**: Node.js, Express.js, React, and AWS services.
+- **Unified Dashboard**: Aggregate reward points from multiple banks with real-time balances, values, and expiration timelines.  
+- **Intelligent Recommendations**: AI-driven algorithms analyze spending patterns to suggest the highest-value redemption options.  
+- **Cross-Bank Optimization**: Pool points across different banks to unlock high-value redemptions.  
+- **Frictionless UPI Integration**: Convert points directly to UPI for daily transactions.  
+- **Micro-Loan Framework**: AI-powered instant approvals using rewards history as a credit signal.  
+- **Secure Authentication**: JWT-based authentication and password hashing (bcrypt) for user security.
 
 ---
 
 ## Workflow
 
-Below is a high-level user flow demonstrating how Trovo interacts with banks and AWS Aurora for data storage, as well as the redemption and transaction processes:
+The following diagram illustrates the high-level user flow of Trovo, showcasing how users interact with the dashboard, bank cards, and AWS Aurora for data storage and transaction processing:
 
-![Trovo Workflow](https://raw.githubusercontent.com/kranthiyelaboina/Trovo/main/assets/userflow.jpg)
+![Trovo Workflow]([https://raw.githubusercontent.com/kranthiyelaboina/Trovo/main/assets/userflow.jpg](https://github.com/kranthiyelaboina/Trovo/blob/ae30367dbd3474ba4f2bc0b7f3d020934f3b6aa6/img/userflow.jpg))
+
+**Workflow Description**: The user accesses the Trovo dashboard to view aggregated reward points and redemption options. The platform connects to bank cards to fetch real-time data, processes transactions, and stores information in AWS Aurora. AI/ML models (e.g., TensorFlow, LLAMA) provide personalized recommendations, while AWS Lambda and CloudFront ensure scalability and performance. The workflow concludes with seamless point redemption or UPI conversion.
 
 ---
 
@@ -56,22 +58,19 @@ Below is a high-level user flow demonstrating how Trovo interacts with banks and
 | **AI/ML**           | TensorFlow, LLAMA (Large Language Model), Scikit-learn             |
 | **Other**           | SSH, Git, Heroku (optional)                                        |
 
-This architecture allows Trovo to scale seamlessly, leverage serverless functions (Lambda) for on-demand tasks, and use advanced analytics (Redshift, Glue) to deliver personalized recommendations.
+This architecture ensures scalability, security, and seamless integration with bank APIs, adhering to PCI-DSS compliance and RBI guidelines.
 
 ---
 
 ## Local Setup
 
-Follow these steps to run Trovo on your local machine.
+Follow these steps to run Trovo on your local machine. The React frontend is bundled with the server, so you only need to run the application from the root folder.
 
 ### 1. Prerequisites
 
 - **Node.js** (v16+ recommended)  
-- **npm** or **yarn**  
-- **TypeScript** (installed globally or via devDependencies)  
-- **Database**:  
-  - Either provision AWS Aurora  
-  - Or use a local MongoDB (if your local config is set to MongoDB)
+- **npm** (installed globally)  
+- **Database**: AWS Aurora (preferred) or local MongoDB
 
 ### 2. Clone the Repository
 
@@ -82,77 +81,50 @@ cd Trovo
 
 ### 3. Environment Variables
 
-Create a `.env` file in the **server** directory with the following (example) keys:
+Create a `.env` file in the root directory with the following (example) keys:
 
-```dotenv
+```
 PORT=5000
-DB_URI=your_database_connection_string  # e.g., MongoDB or AWS Aurora DSN
+DB_URI=your_database_connection_string  # e.g., AWS Aurora DSN or MongoDB URI
 JWT_SECRET=your_jwt_secret
 ```
 
 ### 4. Install Dependencies
 
-#### Server
-
 ```bash
-cd server
 npm install
 ```
 
-#### Client
+### 5. Run Locally
 
 ```bash
-cd ../client
-npm install
+npm run dev
 ```
 
-### 5. Build & Run Locally
-
-#### Server
-
-```bash
-cd server
-npm run build   # Transpile TypeScript to JavaScript
-npm start       # Starts the compiled JS from dist/
-```
-
-> **Tip**: Ensure your `package.json` includes scripts for `build` and `start` (e.g., `"build": "tsc"`, `"start": "node dist/index.js"`).
-
-#### Client
-
-```bash
-cd ../client
-npm start       # Runs React dev server on localhost:3000
-```
-
-### 6. Access the App
-
-- **Frontend**: [http://localhost:3000](http://localhost:3000)  
-- **Backend**: [http://localhost:5000/api](http://localhost:5000/api) (or similar, depending on your code)
+- Open your browser and navigate to `http://localhost:5000` to access the Trovo platform.  
+- **Note**: The `npm run dev` command starts the server and serves the bundled React frontend, so no separate client setup is required.
 
 ---
 
 ## Deployment
 
-Although Trovo can be deployed on various platforms, two popular options are **AWS** and **Heroku**.
-
 ### AWS Deployment
 
-1. **Provision an EC2 instance** or use AWS Elastic Beanstalk.  
-2. **Set up** your environment variables (e.g., in AWS Systems Manager Parameter Store).  
-3. **Configure** a build pipeline (CI/CD) using AWS CodePipeline or GitHub Actions.  
-4. **Run** your Node.js server with a process manager (e.g., PM2) on the EC2 instance.  
-5. **Use** AWS Aurora (or RDS) for your production database.  
+1. Provision an EC2 instance or use AWS Elastic Beanstalk.  
+2. Set up environment variables (e.g., in AWS Systems Manager Parameter Store).  
+3. Configure a build pipeline using AWS CodePipeline or GitHub Actions.  
+4. Run the Node.js server with a process manager (e.g., PM2) on the EC2 instance.  
+5. Use AWS Aurora for your production database.
 
 ### Heroku Deployment (Optional)
 
-1. **Create** a Heroku app: `heroku create your-app-name`  
-2. **Add** a `Procfile` in the root with `web: npm start` (or whichever start command).  
-3. **Set** environment variables:  
+1. Create a Heroku app: `heroku create your-app-name`  
+2. Add a `Procfile` in the root with `web: npm start`  
+3. Set environment variables:  
    ```bash
    heroku config:set NODE_ENV=production JWT_SECRET=your_secret DB_URI=your_db_uri
    ```  
-4. **Deploy**:  
+4. Deploy:  
    ```bash
    git push heroku main
    heroku open
@@ -162,25 +134,22 @@ Although Trovo can be deployed on various platforms, two popular options are **A
 
 ## License
 
-This project is open-sourced under the [MIT License](LICENSE). Feel free to use and modify the code in compliance with the license.
+This project is open-sourced under the MIT License. Feel free to use and modify the code in compliance with the license.
 
 ---
 
 ## Team
 
-- **Kranthi Yelaboina** – Cloud Architect, Front-End Developer  
-- **Narra Akshith Sai** – Collaborative Hackathon Team  
+- **Kranthi Yelaboina** – Cloud Architect, Front-End Developer (Team Leader, IARE)  
+- **Nanubala Amarnadh Reddy** – Team Member (JNTUH)  
+- **Chilukamari Pavan Teja** – Team Member (BVRIT)  
+- **Varre Tarani** – Team Member (KLU)  
+- **Narra Akshith Sai** – Collaborative Hackathon Team Member
 
-We welcome contributions! If you find any issues or have suggestions, please open an [issue](https://github.com/kranthiyelaboina/Trovo/issues) or submit a pull request.
+We welcome contributions! If you find any issues or have suggestions, please open an issue or submit a pull request.
+
+Thank you for using Trovo!
+
+**Maximize your rewards, simplify your life.**
 
 ---
-
-**Thank you for using Trovo!**  
-_Maximize your rewards, simplify your life._
-```
-
-### Additional Tips
-
-1. **Image Hosting**: If you want to host additional screenshots or diagrams, create an `assets` folder in your repo.  
-2. **Maintaining Professionalism**: Keep your documentation up-to-date with any new features, and use consistent formatting for headings, code blocks, and bullet points.  
-3. **Contributing Guidelines**: For open-source collaboration, consider adding a `CONTRIBUTING.md` file outlining how to contribute.
