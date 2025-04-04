@@ -1,8 +1,3 @@
-Got it! Here's the updated professional `README.md` for your project **Trovo**, incorporating the correct project name and setup details.
-
----
-
-### 📌 `README.md`
 
 ```markdown
 # Trovo
