@@ -1,181 +1,186 @@
 
+---
+
 ```markdown
 # Trovo
 
-**Trovo** is an intelligent credit card reward point optimizer designed to address the widespread issue of unredeemed credit card rewards in India. It acts as a unified platform for users to track, manage, and optimize reward points across multiple banks and cards.
+Trovo is an **intelligent credit card reward point optimizer** designed to unify and streamline reward points from multiple banks, ensuring users maximize their redemption options. It addresses the common pain points of fragmented reward systems, complex redemption processes, and unused points.
 
 ---
 
-## 🔍 Problem Statement
+## Table of Contents
 
-Over ₹29,000 Cr worth of credit card reward points in India go unredeemed due to:
-- Lack of centralization
-- Low awareness of redemption options
-- Fragmented user experiences across banks
-
----
-
-## 💡 Solution
-
-**Trovo** offers:
-- A **unified dashboard** to view and manage reward points
-- **Smart recommendations** for the best card usage based on the merchant
-- **Optimization algorithms** to maximize redemption value
-- **Data privacy and security** using JWT and bcrypt authentication
+1. [Overview](#overview)  
+2. [Features](#features)  
+3. [Workflow](#workflow)  
+4. [Tools & Technologies](#tools--technologies)  
+5. [Local Setup](#local-setup)  
+6. [Deployment](#deployment)  
+7. [License](#license)  
+8. [Team](#team)
 
 ---
 
-## 🧠 Key Features
+## Overview
 
-- Cross-bank reward point aggregation
-- Intelligent redemption suggestions using ML
-- Spend analytics and reports
-- Secure login and signup using JWT
-- Admin dashboard with user insights
+Millions of credit card reward points go unredeemed every year due to a lack of awareness, complicated redemption processes, and fragmented systems. **Trovo** tackles this by offering a single, user-friendly platform to view, track, and optimize reward points from various cards and banks. By harnessing AI/ML, Trovo provides personalized insights, frictionless UPI conversion, and cross-bank reward pooling.
 
 ---
 
-## 🛠️ Tech Stack
+## Features
 
-### Frontend:
-- React.js
-- Tailwind CSS
-- Axios
-
-### Backend:
-- Node.js
-- Express.js
-- MongoDB
-- JWT, Bcrypt
-
-### AI & Data:
-- TensorFlow
-- Scikit-learn
-- Snowflake (for data warehousing)
-
-### Deployment:
-- Heroku (supports TypeScript via compilation)
-- GitHub
+- **Unified Dashboard**: Aggregate reward points from multiple banks.  
+- **Real-Time Analytics**: Monitor reward points, expiration dates, and usage patterns.  
+- **Intelligent Recommendations**: Leverage ML models to suggest optimal redemption strategies.  
+- **Secure Authentication**: JWT-based auth, password hashing (bcrypt).  
+- **Scalable Architecture**: Node.js, Express.js, React, and AWS services.
 
 ---
 
-## 📸 User Flow
+## Workflow
 
-> ![User Flow](https://raw.githubusercontent.com/kranthiyelaboina/Trovo/main/assets/user-flow.png)
+Below is a high-level user flow demonstrating how Trovo interacts with banks and AWS Aurora for data storage, as well as the redemption and transaction processes:
 
----
-
-## 🧱 Architecture
-
-> ![Architecture](https://raw.githubusercontent.com/kranthiyelaboina/Trovo/main/assets/architecture.png)
+![Trovo Workflow](https://raw.githubusercontent.com/kranthiyelaboina/Trovo/main/assets/userflow.jpg)
 
 ---
 
-## 🚀 Getting Started (Local Setup)
+## Tools & Technologies
 
-### Prerequisites
-- Node.js (v16+)
-- MongoDB
-- Yarn or npm
+| Category            | Tools / Services                                                    |
+|---------------------|---------------------------------------------------------------------|
+| **Frontend**        | React, TypeScript, Tailwind CSS, Axios                             |
+| **Backend**         | Node.js, Express.js, TypeScript, JWT, Bcrypt                       |
+| **Database**        | AWS Aurora (or MongoDB, if configured locally)                     |
+| **AWS Services**    | AWS Lambda, AWS CloudFront, AWS S3, AWS Redshift, AWS Glue, AWS EC2 |
+| **AI/ML**           | TensorFlow, LLAMA (Large Language Model), Scikit-learn             |
+| **Other**           | SSH, Git, Heroku (optional)                                        |
+
+This architecture allows Trovo to scale seamlessly, leverage serverless functions (Lambda) for on-demand tasks, and use advanced analytics (Redshift, Glue) to deliver personalized recommendations.
 
 ---
 
-### 1️⃣ Clone the Repository
+## Local Setup
+
+Follow these steps to run Trovo on your local machine.
+
+### 1. Prerequisites
+
+- **Node.js** (v16+ recommended)  
+- **npm** or **yarn**  
+- **TypeScript** (installed globally or via devDependencies)  
+- **Database**:  
+  - Either provision AWS Aurora  
+  - Or use a local MongoDB (if your local config is set to MongoDB)
+
+### 2. Clone the Repository
+
 ```bash
 git clone https://github.com/kranthiyelaboina/Trovo.git
 cd Trovo
 ```
 
-### 2️⃣ Install Dependencies
+### 3. Environment Variables
 
-#### Server:
-```bash
-cd server
-npm install
-```
+Create a `.env` file in the **server** directory with the following (example) keys:
 
-#### Client:
-```bash
-cd ../client
-npm install
-```
-
----
-
-### 3️⃣ Environment Variables
-
-#### Create a `.env` file in `server/` with:
-```env
+```dotenv
 PORT=5000
-MONGO_URI=your_mongodb_uri
+DB_URI=your_database_connection_string  # e.g., MongoDB or AWS Aurora DSN
 JWT_SECRET=your_jwt_secret
 ```
 
----
+### 4. Install Dependencies
 
-### 4️⃣ Build & Run
+#### Server
 
-#### Backend (with TypeScript):
 ```bash
 cd server
-npm run build      # Compiles TypeScript to dist/
-npm start          # Runs the compiled code
+npm install
 ```
 
-#### Frontend:
+#### Client
+
 ```bash
 cd ../client
-npm start
+npm install
 ```
 
----
+### 5. Build & Run Locally
 
-### ✅ Access the App
-- Frontend: [http://localhost:3000](http://localhost:3000)
-- Backend API: [http://localhost:5000/api](http://localhost:5000/api)
+#### Server
 
----
-
-## 🌐 Deployment
-
-Trovo can be deployed on **Heroku**:
-
-### Using CLI (recommended):
 ```bash
-heroku login
-heroku create trovo-app
-git push heroku main
+cd server
+npm run build   # Transpile TypeScript to JavaScript
+npm start       # Starts the compiled JS from dist/
 ```
 
-Make sure to set buildpacks if using TypeScript:
+> **Tip**: Ensure your `package.json` includes scripts for `build` and `start` (e.g., `"build": "tsc"`, `"start": "node dist/index.js"`).
+
+#### Client
+
 ```bash
-heroku buildpacks:set heroku/nodejs
+cd ../client
+npm start       # Runs React dev server on localhost:3000
 ```
 
-Or use the Heroku Dashboard (GUI) to connect GitHub and deploy.
+### 6. Access the App
+
+- **Frontend**: [http://localhost:3000](http://localhost:3000)  
+- **Backend**: [http://localhost:5000/api](http://localhost:5000/api) (or similar, depending on your code)
 
 ---
 
-## 👥 Team
+## Deployment
 
-- Kranthi Yelaboina
-- Narra Akshith Sai
+Although Trovo can be deployed on various platforms, two popular options are **AWS** and **Heroku**.
+
+### AWS Deployment
+
+1. **Provision an EC2 instance** or use AWS Elastic Beanstalk.  
+2. **Set up** your environment variables (e.g., in AWS Systems Manager Parameter Store).  
+3. **Configure** a build pipeline (CI/CD) using AWS CodePipeline or GitHub Actions.  
+4. **Run** your Node.js server with a process manager (e.g., PM2) on the EC2 instance.  
+5. **Use** AWS Aurora (or RDS) for your production database.  
+
+### Heroku Deployment (Optional)
+
+1. **Create** a Heroku app: `heroku create your-app-name`  
+2. **Add** a `Procfile` in the root with `web: npm start` (or whichever start command).  
+3. **Set** environment variables:  
+   ```bash
+   heroku config:set NODE_ENV=production JWT_SECRET=your_secret DB_URI=your_db_uri
+   ```  
+4. **Deploy**:  
+   ```bash
+   git push heroku main
+   heroku open
+   ```
 
 ---
 
-## 📃 License
+## License
 
-This project is licensed under the MIT License.
+This project is open-sourced under the [MIT License](LICENSE). Feel free to use and modify the code in compliance with the license.
 
 ---
 
+## Team
+
+- **Kranthi Yelaboina** – Cloud Architect, Front-End Developer  
+- **Narra Akshith Sai** – Collaborative Hackathon Team  
+
+We welcome contributions! If you find any issues or have suggestions, please open an [issue](https://github.com/kranthiyelaboina/Trovo/issues) or submit a pull request.
+
+---
+
+**Thank you for using Trovo!**  
+_Maximize your rewards, simplify your life._
 ```
 
----
+### Additional Tips
 
-### 📌 Notes:
-
-1. Upload your images (`user-flow.png`, `architecture.png`) to the GitHub repo at `assets/` directory for the image links to work.
-2. Let me know if you'd like this documentation as a downloadable file or hosted on a GitHub Wiki.
-
-Would you like a version of this as a `README.md` file to upload directly to your GitHub repo?
+1. **Image Hosting**: If you want to host additional screenshots or diagrams, create an `assets` folder in your repo.  
+2. **Maintaining Professionalism**: Keep your documentation up-to-date with any new features, and use consistent formatting for headings, code blocks, and bullet points.  
+3. **Contributing Guidelines**: For open-source collaboration, consider adding a `CONTRIBUTING.md` file outlining how to contribute.
