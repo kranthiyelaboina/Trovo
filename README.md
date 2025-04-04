@@ -1,6 +1,6 @@
 # Trovo
 
-Trovo is an **intelligent credit card reward point optimizer** designed to unify and streamline reward points from multiple banks, ensuring users maximize their redemption options. Developed as part of the **HackHInII 2025** event under the "PointsPAL: Revolutionizing Credit Card Rewards Redemption" project, Trovo addresses the significant issue of unredeemed rewards in India, where over ₹12,500 crores worth of credit card points expire annually. This platform provides a centralized solution to manage, track, and optimize reward points, transforming forgotten points into financial freedom.
+Trovo is an **intelligent credit card reward point optimizer** designed to unify and streamline reward points from multiple banks, ensuring users maximize their redemption options. Developed as part of the **HackHInII 2025** event under the "Trovo: Revolutionizing Credit Card Rewards Redemption" project, Trovo addresses the significant issue of unredeemed rewards in India, where over ₹12,500 crores worth of credit card points expire annually. This platform provides a centralized solution to manage, track, and optimize reward points, transforming forgotten points into financial freedom.
 
 ---
 
@@ -19,7 +19,7 @@ Trovo is an **intelligent credit card reward point optimizer** designed to unify
 
 ## Overview
 
-The credit card rewards ecosystem in India suffers from fragmentation, complex redemption processes, and a lack of awareness, leading to substantial value leakage for consumers and financial institutions. Trovo tackles these challenges by offering a single, user-friendly platform that aggregates reward points from major Indian banks (HDFC, ICICI, SBI, Axis, Kotak, Amex), provides real-time analytics, and leverages AI/ML for personalized redemption strategies. Inspired by the "PointsPAL" concept, Trovo enables cross-bank point pooling, frictionless UPI integration, and micro-loan options, empowering users to reclaim an average of ₹4,200 annually in lost rewards.
+The credit card rewards ecosystem in India suffers from fragmentation, complex redemption processes, and a lack of awareness, leading to substantial value leakage for consumers and financial institutions. Trovo tackles these challenges by offering a single, user-friendly platform that aggregates reward points from major Indian banks (HDFC, ICICI, SBI, Axis, Kotak, Amex), provides real-time analytics, and leverages AI/ML for personalized redemption strategies. Inspired by the "Trovo" concept, Trovo enables cross-bank point pooling, frictionless UPI integration, and micro-loan options, empowering users to reclaim an average of ₹4,200 annually in lost rewards.
 
 ---
 
