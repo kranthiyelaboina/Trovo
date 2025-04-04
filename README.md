@@ -1,5 +1,3 @@
-
-```markdown
 # Trovo
 
 Trovo is an **intelligent credit card reward point optimizer** designed to unify and streamline reward points from multiple banks, ensuring users maximize their redemption options. Developed as part of the **HackHInII 2025** event under the "PointsPAL: Revolutionizing Credit Card Rewards Redemption" project, Trovo addresses the significant issue of unredeemed rewards in India, where over ₹12,500 crores worth of credit card points expire annually. This platform provides a centralized solution to manage, track, and optimize reward points, transforming forgotten points into financial freedom.
@@ -147,14 +145,3 @@ We welcome contributions! If you find any issues or have suggestions, please ope
 Thank you for using Trovo!
 
 **Maximize your rewards, simplify your life.**
-```
-
----
-
-### Explanation of Changes
-- **Image Embedding**: The workflow image is embedded directly in the `Workflow` section using the markdown syntax `![Trovo Workflow](https://raw.githubusercontent.com/kranthiyelaboina/Trovo/main/assets/userflow.jpg)`. This ensures the image is displayed inline when viewed on platforms like GitHub, rather than requiring users to click a link.
-- **Structure**: The README is organized with a table of contents and clear section headers for easy navigation.
-- **Content**: Each section is concise yet detailed, covering the project overview, features, tools, setup instructions, deployment options, licensing, and team details.
-- **Professional Tone**: The language is polished and user-focused, making it accessible to both developers and end-users.
-
-This redesigned `README.md` meets your requirement of explicitly displaying the image and provides a complete, well-structured guide to the Trovo project.
